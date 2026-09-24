@@ -12,8 +12,8 @@ android {
         minSdk = 30
         targetSdk = 36
         //noinspection HighAppVersionCode
-        versionCode = 2026070712
-        versionName = "0.2.6"
+        versionCode = 2026092405
+        versionName = "0.2.11"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -46,6 +46,18 @@ android {
         }
     }
 }
+
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            // 从 output 中直接获取 versionNameToRun，或者通过 variant 间接获取
+            val versionName = output.versionName.orNull ?: "unknown"
+            val newName = "LowiroFucker-${variant.name}-v$versionName.apk"
+            output.outputFileName.set(newName)
+        }
+    }
+}
+
 
 dependencies {
     // Modern Xposed API (libxposed)

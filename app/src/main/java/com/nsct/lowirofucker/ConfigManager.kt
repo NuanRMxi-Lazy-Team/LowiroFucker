@@ -1,9 +1,15 @@
 package com.nsct.lowirofucker
 
 import android.content.SharedPreferences
+import android.util.Log
 import io.github.libxposed.service.XposedService
+import kotlinx.coroutines.delay
 
 object ConfigManager {
+
+    private const val TAG = "LowiroFucker"
+    private const val PREFS_RETRY_COUNT = 5
+    private const val PREFS_RETRY_DELAY_MS = 200L
 
     const val PREFS_GROUP = "hook_config"
 
@@ -55,6 +61,20 @@ object ConfigManager {
         prefs.edit().putBoolean(KEY_ENABLED, enabled).apply()
     }
 
-    fun getRemotePrefs(service: XposedService?): SharedPreferences? =
-        runCatching { service?.getRemotePreferences(PREFS_GROUP) }.getOrNull()
+    /**
+     * 通过已连接的 Xposed Service 获取 Remote Preferences。
+     * binder 刚建立时框架可能尚未就绪，失败会短暂重试；只有全部失败才返回 null。
+     */
+    suspend fun awaitRemotePrefs(service: XposedService?): SharedPreferences? {
+        if (service == null) return null
+        repeat(PREFS_RETRY_COUNT) { attempt ->
+            try {
+                return service.getRemotePreferences(PREFS_GROUP)
+            } catch (t: Throwable) {
+                Log.w(TAG, "getRemotePreferences failed (attempt ${attempt + 1}/$PREFS_RETRY_COUNT)", t)
+                if (attempt < PREFS_RETRY_COUNT - 1) delay(PREFS_RETRY_DELAY_MS)
+            }
+        }
+        return null
+    }
 }
