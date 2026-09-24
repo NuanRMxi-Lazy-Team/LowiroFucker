@@ -27,9 +27,9 @@
 
 | 配置项               | 默认值   | 说明                                   |
 |-------------------|-------|--------------------------------------|
-| AudioManager 欺骗   | 启用    | Hook `OUTPUT_FRAMES_PER_BUFFER` 的返回值 |
-| Buffer Size       | `192` | 欺骗 AudioManager 返回的帧缓冲大小             |
-| FMOD Native Hook  | 禁用    | 通过 native inline hook 拦截 FMOD 缓冲区设置  |
+| AudioManager 欺骗 | 禁用 | Hook `OUTPUT_FRAMES_PER_BUFFER` 的返回值 |
+| Buffer Size | `192` | 欺骗 AudioManager 返回的帧缓冲大小 |
+| FMOD Native Hook | 启用 | 通过 native inline hook 拦截 FMOD 缓冲区设置 |
 | DSP Buffer Length | `16`  | 传给 FMOD `setDSPBufferSize` 的缓冲长度     |
 | DSP Num Buffers   | `2`   | 传给 FMOD `setDSPBufferSize` 的缓冲数量     |
 

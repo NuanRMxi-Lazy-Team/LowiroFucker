@@ -20,10 +20,10 @@ object ConfigManager {
     const val KEY_FMOD_ENABLED         = "fmod_enabled"
 
     const val DEFAULT_BUFFER_SIZE          = "192"
-    const val DEFAULT_ENABLED              = true
+    const val DEFAULT_ENABLED              = false
     const val DEFAULT_FMOD_DSP_BUFFER_LEN  = "16"
     const val DEFAULT_FMOD_DSP_NUM_BUFFERS = "2"
-    const val DEFAULT_FMOD_ENABLED         = false
+    const val DEFAULT_FMOD_ENABLED         = true
 
     fun getBufferSize(prefs: SharedPreferences): String =
         prefs.getString(KEY_BUFFER_SIZE, DEFAULT_BUFFER_SIZE) ?: DEFAULT_BUFFER_SIZE
